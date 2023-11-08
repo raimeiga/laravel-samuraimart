@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->integer('price')->unsigned();
             $table->timestamps();
+            $table->integer('category_id')->unsigned();
         });
     }
 
