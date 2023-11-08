@@ -18,6 +18,7 @@
     
      <!-- Styles -->
      <link href="{{ asset('css/samuraimart.css') }}" rel="stylesheet">
+     <!--↑ asset()関数を使用することで、publicディレクトリ配下のファイルにアクセスできる -->
 </head>
 <body>
     <div id="app">
