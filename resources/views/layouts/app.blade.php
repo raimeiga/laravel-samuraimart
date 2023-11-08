@@ -73,8 +73,8 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')<!--main部分は、このトップページのファイルの可読性向上のため、login.blade.php
-                                        のatマークsection('content')～atマークendsectionに記述-->
+            @yield('content')<!--main部分は、このトップページのファイルの可読性向上のため、
+                                login.blade.phpのatマークsection('content')～atマークendsectionに記述-->
         </main>
     </div>
 </body>
