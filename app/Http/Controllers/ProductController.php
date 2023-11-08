@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;  //Categoryのインスタンスを使用できるようになる
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $categories = Category::all(); //選択するカテゴリをcompact関数で渡して新規登録ページに反映
+  
+        return view('products.create', compact('categories'));
     }
 
     /**
@@ -44,6 +47,7 @@ class ProductController extends Controller
         $product->name = $request->input('name');                //productsテーブルのnameカラムに保存
         $product->description = $request->input('description');  //productsテーブルのdescriptionカラムに保存
         $product->price = $request->input('price');              //productsテーブルのpriceカラムに保存
+        $product->category_id = $request->input('category_id');  //productsテーブルのcategoriesカラムに保存
         $product->save();                                        //←このコードで、name、description、priceのデータをデータベースに保存
 
         return to_route('products.index');
@@ -68,7 +72,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit', compact('product'));
+        $categories = Category::all(); //選択したカテゴリを取得し、下のcompact関数で渡して編集ページに反映
+  
+        return view('products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -83,6 +89,7 @@ class ProductController extends Controller
         $product->name = $request->input('name');
         $product->description = $request->input('description');
         $product->price = $request->input('price');
+        $product->category_id = $request->input('category_id'); 
         $product->update();  //←このコードで、データベースから指定の商品のデータを更新
  
         return to_route('products.index');
