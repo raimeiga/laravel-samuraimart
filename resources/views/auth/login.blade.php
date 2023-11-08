@@ -1,6 +1,6 @@
-@extends('layouts.app') <!--　↓　atマークsection(ディレクティブ)とコンビで使用 --> 
+@extends('layouts.app') <!--　↓　atマークsection('content')とコンビで使用 --> 
 
- <!-- atマークsectionは、親ビュー（layouts/app.blade.php)のatマーク「yield('title')」の部分の具体化（こちらのファイルに切り出し）
+ <!-- atマークsectionは、親ビュー（layouts/app.blade.php)のatマーク「yield('content')」の部分の具体化（こちらのファイルに切り出し）
  　　　コードのトップのatマークextendsというディレクティブを使ってベースとなる親ビューを指定している -->
  @section('content')
  <div class="container">
