@@ -1,3 +1,4 @@
+<!-- 商品データの新規登録ページ -->
 <div>
      <h2>Add New Product</h2>
  </div>
@@ -6,8 +7,7 @@
  </div>
  
  <form action="{{ route('products.store') }}" method="POST">
-     @csrf
- 
+     @csrf  <!-- 外部からの攻撃への対策 --> 
      <div>
          <strong>Name:</strong>
          <input type="text" name="name" placeholder="Name">
