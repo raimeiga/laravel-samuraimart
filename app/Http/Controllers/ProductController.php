@@ -15,7 +15,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::all(); //すべての商品データをDBから取得して変数化し、下のcompact関数でindex.blade/phpに渡す
+ 
+        return view('products.index', compact('products'));
     }
 
     /**
