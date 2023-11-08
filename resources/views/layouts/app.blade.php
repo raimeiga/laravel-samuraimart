@@ -15,6 +15,7 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <script src="https://kit.fontawesome.com/0d8153b09a.js" crossorigin="anonymous"></script>
     
      <!-- Styles public\css\samuraimart.cssを読み込むためのコード-->
      <link href="{{ asset('css/samuraimart.css') }}" rel="stylesheet">
