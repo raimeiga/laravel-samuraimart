@@ -1,3 +1,4 @@
+<!-- 新規アカウント作成画面 -->
 @extends('layouts.app')
  
  @section('content')
