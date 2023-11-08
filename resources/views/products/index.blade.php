@@ -1,4 +1,4 @@
-<a href="{{ route('products.create') }}"> Create New Product</a>
+<a href="{{ route('products.create') }}"> Create New Product</a>  <!-- 商品データの新規登録ページ(create.blade.php)へのリンク -->
  
  <table>
      <tr>
@@ -15,9 +15,10 @@
          <td>{{ $product->price }}</td>
          <td>{{ $product->category_id }}</td>
          <td>
-             <a href="{{ route('products.show',$product->id) }}">Show</a>
-             <a href="{{ route('products.edit',$product->id) }}">Edit</a>
-         </td>
+             <a href="{{ route('products.show',$product->id) }}">Show</a>  <!-- 商品の個別ページ(show.blade.php)へのリンク -->
+             <a href="{{ route('products.edit',$product->id) }}">Edit</a>  <!-- 商品情報の編集ページ(edit.blade.php)へのリンク -->
+         </td>       
+         
      </tr>
      @endforeach
  </table>
