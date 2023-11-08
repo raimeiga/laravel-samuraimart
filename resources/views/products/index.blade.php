@@ -1,28 +1,27 @@
-<a href="{{ route('products.create') }}"> Create New Product</a>  <!-- 商品データの新規登録ページ(create.blade.php)へのリンク -->
+@extends('layouts.app')
  
- <table>
-     <tr>
-         <th>Name</th>
-         <th>Description</th>
-         <th>Price</th>
-         <th>Category ID</th>
-         <th >Action</th>
-     </tr>
-     @foreach ($products as $product)
-     <tr>
-         <td>{{ $product->name }}</td>
-         <td>{{ $product->description }}</td>
-         <td>{{ $product->price }}</td>
-         <td>{{ $product->category_id }}</td>
-         <td>
-         <form action="{{ route('products.destroy',$product->id) }}" method="POST">
-                <a href="{{ route('products.show',$product->id) }}">Show</a>  <!-- 商品の個別ページ(show.blade.php)へのリンク -->
-                <a href="{{ route('products.edit',$product->id) }}">Edit</a>  <!-- 商品情報の編集ページ(edit.blade.php)へのリンク -->
-              @csrf
-              @method('DELETE')  <!-- ←　リクエストがDELETEであると分かるように書き、数行上のactionでリクエストの送信先を指定 -->
-              <button type="submit">Delete</button>
-             </form>
-         </td>         
-     </tr>
-     @endforeach
- </table>
+ @section('content')
+ <div class="row">
+     <div class="col-9">
+         <div class="container mt-4">
+             <div class="row w-100">
+                 @foreach($products as $product)
+                 <div class="col-3">
+                     <a href="{{route('products.show', $product)}}">
+                         <img src="{{ asset('img/dummy.png')}}" class="img-thumbnail">
+                     </a>
+                     <div class="row">
+                         <div class="col-12">
+                             <p class="samuraimart-product-label mt-2">
+                                 {{$product->name}}<br>
+                                 <label>￥{{$product->price}}</label>
+                             </p>
+                         </div>
+                     </div>
+                 </div>
+                 @endforeach
+             </div>
+         </div>
+     </div>
+ </div>
+ @endsection
