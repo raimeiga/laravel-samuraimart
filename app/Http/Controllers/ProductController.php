@@ -36,9 +36,17 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+
+    //  storeアクションはデータを受け取り、新しいデータを保存するアクション
+    public function store(Request $request)  //$requestにはフォームから送信されたデータが格納されている
     {
-        //
+        $product = new Product();                                // Productモデルをインスタンス化
+        $product->name = $request->input('name');                //productsテーブルのnameカラムに保存
+        $product->description = $request->input('description');  //productsテーブルのdescriptionカラムに保存
+        $product->price = $request->input('price');              //productsテーブルのpriceカラムに保存
+        $product->save();                                        //←このコードで、name、description、priceのデータをデータベースに保存
+
+        return to_route('products.index');
     }
 
     /**
@@ -49,7 +57,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('products.show', compact('product'));
     }
 
     /**
@@ -60,7 +68,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('products.edit', compact('product'));
     }
 
     /**
@@ -72,7 +80,12 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->update();  //←このコードで、データベースから指定の商品のデータを更新
+ 
+        return to_route('products.index');
     }
 
     /**
@@ -83,6 +96,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();  //←このコードで、データベースから指定の商品のデータを削除
+  
+        return to_route('products.index'); // URL「/products」にリダイレクト   
+
     }
 }
