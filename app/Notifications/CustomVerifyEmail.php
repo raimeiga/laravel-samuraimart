@@ -8,6 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 
+
 class CustomVerifyEmail extends VerifyEmail
 {
     use Queueable;
@@ -39,6 +40,7 @@ class CustomVerifyEmail extends VerifyEmail
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
+    
     public function toMail($notifiable)
     {
         return (new MailMessage)
