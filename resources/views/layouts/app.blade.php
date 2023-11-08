@@ -16,7 +16,7 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     
-     <!-- Styles -->
+     <!-- Styles public\css\samuraimart.cssを読み込むためのコード-->
      <link href="{{ asset('css/samuraimart.css') }}" rel="stylesheet">
      <!--↑ asset()関数を使用することで、publicディレクトリ配下のファイルにアクセスできる -->
 </head>
