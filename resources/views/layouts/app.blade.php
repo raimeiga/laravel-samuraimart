@@ -76,7 +76,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4 mb-5">
             @yield('content')<!--main部分は、このトップページのファイルの可読性向上のため、
                                 login.blade.phpのatマークsection('content')～atマークendsectionに記述-->
         </main>
