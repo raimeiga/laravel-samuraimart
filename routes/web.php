@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReviewController;
 
 /*
@@ -17,6 +18,13 @@ use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+// ↓ ユーザー情報関連の各ルーティングを設定し、UserControllerでグルーピングしているらしい
+Route::controller(UserController::class)->group(function () {
+    Route::get('users/mypage', 'mypage')->name('mypage');
+    Route::get('users/mypage/edit', 'edit')->name('mypage.edit');
+    Route::put('users/mypage', 'update')->name('mypage.update');
 });
 
 Route::post('reviews', [ReviewController::class, 'store'])->name('reviews.store');
