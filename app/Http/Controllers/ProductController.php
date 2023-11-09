@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Category;  //Categoryのインスタンスを使用できるようになる
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -110,4 +111,13 @@ class ProductController extends Controller
         return to_route('products.index'); // URL「/products」にリダイレクト   
 
     }
+
+    // favoriteアクション=商品のお気に入り登録・解除を制御するアクション
+    public function favorite(Product $product)
+     {
+         Auth::user()->togglefavorite($product);  
+           // Auth::userで、現在のユーザーの情報を取得
+           //  togglefavorite($product)で、ユーザーがその商品をお気に入り登録していなければ登録し、お気に入り登録していれば解除
+         return back();
+     }
 }
