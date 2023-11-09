@@ -21,7 +21,11 @@ class ProductController extends Controller
             $products = Product::all(); すべての商品データをDBから取得して変数化し、下のcompact関数でindex.blade/phpに渡す
         */
         $products = Product::paginate(15);  // Productモデルのデータを15件ずつ、ページネーションで表示できる
-        return view('products.index', compact('products'));
+         $categories = Category::all();     // 全てのカテゴリーを取得
+         $major_category_names = Category::pluck('major_category_name')->unique(); 
+                                /* ↑ 全カテゴリーのデータからmajor_category_nameのカラムのみを取得.
+                                     その上でunique()を使い、重複している部分を削除 */
+         return view('products.index', compact('products', 'categories', 'major_category_names'));
     }
 
     /**
