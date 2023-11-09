@@ -2,6 +2,12 @@
  
  @section('content')
  <div class="row">
+       <div class="col-2">  
+         <!-- ↓ サイドバーのファイル（sidebar.blade.php）の呼び出し。
+         　　　　呼び出すコンポーネント名の後に連想配列を作成することで、コンポーネントへと変数を渡すことができる-->
+         @component('components.sidebar', ['categories' => $categories, 'major_category_names' => $major_category_names])
+         @endcomponent
+      </div>
      <div class="col-9">
          <div class="container mt-4">
              <div class="row w-100">
