@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-light shadow-sm samuraimart-header-container">
    <div class="container">
      <a class="navbar-brand" href="{{ url('/') }}">
-       {{ config('app.name', 'Laravel') }}
+        <img src="{{asset('img/logo.jpg')}}">  <!-- asset関数を使い、publicディレクトリ配下の画像ファイルなどにアクセスできる -->
      </a>
      <form class="row g-1">
        <div class="col-auto">
