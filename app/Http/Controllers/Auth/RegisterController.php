@@ -49,9 +49,13 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        //バリデーションか？↓
+        return Validator::make($data, [ 
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'postal_code' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'phone' => ['required', 'string'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -62,11 +66,16 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
+
+    // 新規アカウントの作成時に、同様に住所などを保存するアクション
     protected function create(array $data)
     {
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'postal_code' => $data['postal_code'],  //郵便番号
+            'address' => $data['address'],          //住所
+            'phone' => $data['phone'],              //電話番号
             'password' => Hash::make($data['password']),
         ]);
     }
