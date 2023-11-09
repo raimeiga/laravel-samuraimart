@@ -17,8 +17,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all(); //すべての商品データをDBから取得して変数化し、下のcompact関数でindex.blade/phpに渡す
- 
+        /*↓ ココに書いてあったけど、消したくないので、コメントアウトして残しておく。
+            $products = Product::all(); すべての商品データをDBから取得して変数化し、下のcompact関数でindex.blade/phpに渡す
+        */
+        $products = Product::paginate(15);  // Productモデルのデータを15件ずつ、ページネーションで表示できる
         return view('products.index', compact('products'));
     }
 
