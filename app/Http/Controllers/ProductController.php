@@ -18,14 +18,14 @@ class ProductController extends Controller
     public function index(Request $request)
         {
         if ($request->category !== null) {
-            // ↓ 絞り込んだカテゴリーidをもつ商品データを取得し、且つページネーションを設定
-            $products = Product::where('category_id', $request->category)->paginate(15);
+            // ↓ 絞り込んだカテゴリーidをもつ商品データを取得し、且つソート(sortable)とページネーション(paginate)を設定
+            $products = Product::where('category_id', $request->category)->sortable()->paginate(15);
             // ↓ 絞り込んだカテゴリーidをもつ商品の数を取得
             $total_count = Product::where('category_id', $request->category)->count();
             // ↓ 絞り込んだカテゴリー名を取得
             $category = Category::find($request->category);
         } else {
-            $products = Product::paginate(15);
+            $products = Product::sortable()->paginate(15);    // ソート(sortable)とページネーション(paginate)を設定
             $total_count = "";
             $category = null;
         }
