@@ -29,6 +29,8 @@
           @yield('content')<!--main部分は、このトップページのファイルの可読性向上のため、
                                login.blade.phpのatマークsection('content')～atマークendsectionに記述-->
         </main>
+          @component('components.footer')  <!-- フッターファイル（footer.blade.php）の呼び出し -->
+          @endcomponent
     </div>
 </body>
 </html>
