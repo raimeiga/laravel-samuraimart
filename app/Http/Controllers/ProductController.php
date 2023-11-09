@@ -18,8 +18,11 @@ class ProductController extends Controller
     public function index(Request $request)
         {
         if ($request->category !== null) {
+            // ↓ 絞り込んだカテゴリーidをもつ商品データを取得し、且つページネーションを設定
             $products = Product::where('category_id', $request->category)->paginate(15);
+            // ↓ 絞り込んだカテゴリーidをもつ商品の数を取得
             $total_count = Product::where('category_id', $request->category)->count();
+            // ↓ 絞り込んだカテゴリー名を取得
             $category = Category::find($request->category);
         } else {
             $products = Product::paginate(15);
@@ -30,8 +33,9 @@ class ProductController extends Controller
          $major_category_names = Category::pluck('major_category_name')->unique(); 
                                 /* ↑ 全カテゴリーのデータからmajor_category_nameのカラムのみを取得.
                                      その上でunique()を使い、重複している部分を削除 */
-         return view('products.index', compact('products', 'categories', 'major_category_names'));
-    }
+        //上記で取得したデータ（$products,$categoryなど）をindex.blade.phpに渡す
+         return view('products.index', compact('products', 'category', 'categories', 'major_category_names', 'total_count'));
+         }
 
     /**
      * Show the form for creating a new resource.

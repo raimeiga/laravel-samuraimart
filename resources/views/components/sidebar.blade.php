@@ -4,6 +4,6 @@
          @foreach ($categories as $category)
              @if ($category->major_category_name === $major_category_name)
              <label class="samuraimart-sidebar-category-label"><a href="{{ route('products.index', ['category' => $category->id]) }}">{{ $category->name }}</a></label>             @endif
-         @endforeach
+         @endforeach                                                 <!--  ↑ 呼び出すルーティングの後に連想配列[ ]で変数を渡すことで、コントローラー側（今回はindexアクション）へ値を渡している -->
      @endforeach
  </div>
