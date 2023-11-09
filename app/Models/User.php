@@ -9,10 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\CustomVerifyEmail;
 use App\Notifications\CustomResetPassword;
+use Overtrue\LaravelFavorite\Traits\Favoriter; //お気に入りするモデル（今回は商品のUser）にuse Favoriterとすることで、お気に入り機能使用可に。
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Favoriter;  //お気に入りするモデル（今回は商品のUser）にuse Favoriterとすることで、お気に入り機能使用可に。
 
     public function sendEmailVerificationNotification()
      {
