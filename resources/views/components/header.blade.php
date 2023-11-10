@@ -36,8 +36,8 @@
            <a class="nav-link" href="{{ route('login') }}"><i class="fas fa-shopping-cart"></i></a>
          </li>
          @else  <!--ログインしている場合の処理を、atマークelse~endguestに記述 -->
-         <li class="nav-item mr-5">
-           <a class="nav-link" href="{{ route('mypage') }}">
+        <li class="nav-item mr-5">
+             <a class="nav-link" href="{{ route('mypage') }}">   <!--マイページへのリンクを表示 -->
              <i class="fas fa-user mr-1"></i><label>マイページ</label>
            </a>
          </li>
