@@ -75,8 +75,9 @@ class UserController extends Controller
          return to_route('mypage');
      }
 
-    //  パスワード変更画面を表示するアクション
+     //  パスワード変更画面を表示するアクション
      public function edit_password()
      {
          return view('users.edit_password');
      }
+}
