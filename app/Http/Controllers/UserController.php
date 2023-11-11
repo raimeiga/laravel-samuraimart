@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Product;  //Productモデルの使用宣言 $Productと書けば、Productインスタンスを使用できる
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;    
 /* ↑ Authファサードを利用することで、「現在ログイン中のユーザー」を取得
@@ -79,5 +80,15 @@ class UserController extends Controller
      public function edit_password()
      {
          return view('users.edit_password');
+     }
+
+     // お気に入りした商品を取得し、ビューに渡す処理
+     public function favorite()
+     {
+         $user = Auth::user();
+        //  ユーザーがお気に入り登録した商品一覧を取得し、その下のcompact関数でビューに渡す
+         $favorites = $user->favorites(Product::class)->get(); 
+ 
+         return view('users.favorite', compact('favorites'));
      }
 }
