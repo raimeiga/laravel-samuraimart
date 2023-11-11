@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ReviewController;
 
 /*
@@ -18,6 +19,11 @@ use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+//↓ この書き方は、カートの商品情報関連の各ルーティングを設定し、CartControllerでグルーピングしてるってことだろ。。。グルーピングしたほうがコード記述が簡略できるってことか。
+Route::controller(CartController::class)->group(function () {
+    Route::get('users/carts', 'index')->name('carts.index');
 });
 
 // ↓ ユーザー情報関連の各ルーティングを設定し、UserControllerでグルーピングしているらしい
