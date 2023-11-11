@@ -44,12 +44,12 @@
          
           <li class="nav-item mr-5">  
              <a class="nav-link" href="{{ route('mypage.favorite') }}"> <!--お気に入りページへのリンク -->
-             <i class="far fa-heart"></i>  
-           </a>
+             <i class="far fa-heart"></i>  <!-- "far fa-heart"はFont Awesomeで提供されているclassで、お気に入りマーク（ハート）のアイコンを作っている -->
+             </a> 
          </li>
          <li class="nav-item mr-5">
            <a class="nav-link" href="{{ route('carts.index') }}">   <!--ヘッダーにカートへのリンク -->
-             <i class="fas fa-shopping-cart"></i>
+             <i class="fas fa-shopping-cart"></i>  <!--カートのアイコンを作っているclassだろう（上記のお気に入りマーク（ハート）と同様） -->
            </a>
          </li>
          @endguest
