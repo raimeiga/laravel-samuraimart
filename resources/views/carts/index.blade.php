@@ -55,13 +55,14 @@
                  </div>
              </div>
          </div>
+         <!-- 商品を購入するためのフォーム -->
          <form method="post" action="{{route('carts.destroy')}}" class="d-flex justify-content-end mt-3">
-             @csrf
+             @csrf  
              <input type="hidden" name="_method" value="DELETE">
              <a href="{{route('top')}}" class="btn samuraimart-favorite-button border-dark text-dark mr-3">
                  買い物を続ける
              </a>
-             @if ($total > 0)
+             @if ($total > 0)  <!-- 合計金額が0円の場合は「購入を確定する」ボタンをクリックできないようにしている -->
              <button type="submit" class="btn samuraimart-submit-button">購入を確定する</button>
              @else
              <button type="submit" class="btn samuraimart-submit-button disabled">購入を確定する</button>
