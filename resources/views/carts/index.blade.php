@@ -21,6 +21,7 @@
          <hr>
  
          <div class="row">
+             <!-- ショッピングカートに追加された商品をforeachループで表示 -->
              @foreach ($cart as $product)
              <div class="col-md-2 mt-2">
                  <a href="{{route('products.show', $product->id)}}">
