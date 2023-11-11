@@ -71,8 +71,7 @@ class UserController extends Controller
              $user->update();
          } else {
              return to_route('mypage.edit_password'); //異なっていた場合は、パスワード変更画面へとリダイレクト
-         }
- 
+         } 
          return to_route('mypage');
      }
 
@@ -86,7 +85,7 @@ class UserController extends Controller
      public function favorite()
      {
          $user = Auth::user();
-        //  ユーザーがお気に入り登録した商品一覧を取得し、その下のcompact関数でビューに渡す
+        //  ユーザーがお気に入り登録した商品一覧を取得し、その下のcompact関数でビュー(favorite.blade.php)に渡す
          $favorites = $user->favorites(Product::class)->get(); 
  
          return view('users.favorite', compact('favorites'));
