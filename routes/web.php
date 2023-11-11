@@ -24,6 +24,7 @@ Route::get('/', function () {
 //↓ この書き方は、カートの商品情報関連の各ルーティングを設定し、CartControllerでグルーピングしてるってことだろ。。。グルーピングしたほうがコード記述が簡略できるってことか。
 Route::controller(CartController::class)->group(function () {
     Route::get('users/carts', 'index')->name('carts.index');
+    Route::post('users/carts', 'store')->name('carts.store');
 });
 
 // ↓ ユーザー情報関連の各ルーティングを設定し、UserControllerでグルーピングしているらしい
