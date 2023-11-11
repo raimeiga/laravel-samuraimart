@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
- use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -57,8 +58,19 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $user_shoppingcarts = DB::table('shoppingcart')->where('instance', Auth::user()->id)->get();
+        $count = $user_shoppingcarts->count();  //現在までのユーザーが注文したカートの数を取得
+
+        $count += 1;  //新しくデータベースに登録するカートのデータ用にカートのIDを一つ増やしている
+        Cart::instance(Auth::user()->id)->store($count);    //ユーザーのIDを使ってカート内の商品情報などをデータベースへと保存
+
+        //　データベース内のshoppingcartテーブルへにアクセスし、where()を使ってユーザーのIDとカート数$countを使い、作成したカートのデータを更新
+        DB::table('shoppingcart')->where('instance', Auth::user()->id)->where('number', null)->update(['number' => $count, 'buy_flag' => true]);
+
+        Cart::instance(Auth::user()->id)->destroy();
+
+        return to_route('carts.index');
     }
 }
