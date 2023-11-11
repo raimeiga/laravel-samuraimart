@@ -1,3 +1,4 @@
+<!-- ショッピングカートのページ -->
 @extends('layouts.app')
  
  @section('content')
