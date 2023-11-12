@@ -60,7 +60,7 @@ return [
             'driver' =>'local',
             'root' => public_path(''),
             'visibility' =>'public',
-            'url' => env('APP_URL'),
+            'url' => env('APP_URL'),   // urlにenv('APP_URL')を指定しているので、.envファイルのAPP_URLをlaravel-samuraimart/publicに変更
         ],
 
     ],
