@@ -1,3 +1,4 @@
+<!-- トップ画面 -->
 @extends('layouts.app')
  
  @section('content')
@@ -26,7 +27,11 @@
                  @foreach($products as $product)
                  <div class="col-3">
                      <a href="{{route('products.show', $product)}}">
+                         @if ($product->image !== "")
+                         <img src="{{ asset($product->image) }}" class="img-thumbnail">
+                         @else
                          <img src="{{ asset('img/dummy.png')}}" class="img-thumbnail">
+                         @endif
                      </a>
                      <div class="row">
                          <div class="col-12">
