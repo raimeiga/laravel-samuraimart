@@ -74,6 +74,9 @@
          <div class="row">
                  @foreach($reviews as $review)
                  <div class="offset-md-5 col-md-5">
+                     <!-- str_repeat関数 = 引数に指定した文字列を、指定した回数分繰り返した形で文字列にする
+                                        　 ↓の場合は、数行下のコードでクリックされた★数分繰り返される -->
+                     <h3 class="review-score-color">{{ str_repeat('★', $review->score) }}</h3>
                      <p class="h3">{{$review->content}}</p>
                      <label>{{$review->created_at}} {{$review->user->name}}</label>
                  </div>
@@ -86,6 +89,14 @@
                      <!-- ↓ 数行下の<textareaと<inputの各行で入力されたcontentとproduct_idをルーティングファイルに渡す -->
                      <form method="POST" action="{{ route('reviews.store') }}"> 
                          @csrf
+                         <h4>評価</h4>  <!--レビューを作成するformタグの中にselectタグを追加して、評価を選べるようにしてる -->
+                         <select name="score" class="form-control m-2 review-score-color">
+                             <option value="5" class="review-score-color">★★★★★</option>
+                             <option value="4" class="review-score-color">★★★★</option>
+                             <option value="3" class="review-score-color">★★★</option>
+                             <option value="2" class="review-score-color">★★</option>
+                             <option value="1" class="review-score-color">★</option>
+                         </select>
                          <h4>レビュー内容</h4>
                          @error('content')
                              <strong>レビュー内容を入力してください</strong>
