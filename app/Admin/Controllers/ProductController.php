@@ -37,12 +37,12 @@ class ProductController extends AdminController
         $grid->column('created_at', __('Created at'))->sortable();
         $grid->column('updated_at', __('Updated at'))->sortable();
         
-        // フィルタ設定
+        // フィルタ設定(検索条件として部分一致、範囲指定などを設定し、検索しやすくしている)
         $grid->filter(function($filter) {
-            $filter->like('name', '商品名');
-            $filter->like('description', '商品説明');
-            $filter->between('price', '金額');
-            $filter->in('category_id', 'カテゴリー')->multipleSelect(Category::all()->pluck('name', 'id'));
+            $filter->like('name', '商品名');  //部分一致を設定
+            $filter->like('description', '商品説明');  //部分一致を設定
+            $filter->between('price', '金額');  //範囲指定を設定
+            $filter->in('category_id', 'カテゴリー')->multipleSelect(Category::all()->pluck('name', 'id'));   //選択式のフィルターを付与
         });
 
         return $grid;
