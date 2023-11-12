@@ -4,6 +4,7 @@ use Illuminate\Routing\Router;
 use App\Admin\Controllers\CategoryController;
 use App\Admin\Controllers\ProductController;
 
+
 Admin::routes();
 
 Route::group([
