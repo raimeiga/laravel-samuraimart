@@ -25,14 +25,24 @@ class CategoryController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Category());
-
-        $grid->column('id', __('Id'));
+        
+        /*　↓ソート機能＝ソートできるようにしたいカラム(↓ 'id','created_at','updated_at')に、sortable()を付与
+              　　　　　 カテゴリーの一覧画面を表示すると、カラムの横にソート用のボタンが表示される　*/        
+        $grid->column('id', __('Id'))->sortable();  
         $grid->column('name', __('Name'));
         $grid->column('description', __('Description'));
         $grid->column('major_category_name', __('Major category name'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('created_at', __('Created at'))->sortable();  
+        $grid->column('updated_at', __('Updated at'))->sortable(); 
 
+        // フィルタ機能　↓「grid->filter(function($filter) {　　}」＝｛　｝の中にフィルタ条件を追加
+        $grid->filter(function($filter) {
+            //$filter->like() = 部分一致のフィルタを追加する関数 第1引数にカラム名、第2引数に画面に表示する文字列を指定
+            $filter->like('name', 'カテゴリー名');   
+            $filter->like('major_category_name', '親カテゴリー名'); 
+            // $filter->between()= 範囲指定のフィルタを追加する関数 datetime()を付与することで、カレンダーを表示して指定できるようになる
+            $filter->between('created_at', '登録日')->datetime();  
+        });                                                      
         return $grid;
     }
 
