@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;  //Categoryのインスタンスを使用できるようになる
+use App\Models\MajorCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,18 +25,19 @@ class ProductController extends Controller
             $total_count = Product::where('category_id', $request->category)->count();
             // ↓ 絞り込んだカテゴリー名を取得
             $category = Category::find($request->category);
+            // ↓ 絞り込んだ親カテゴリーidを取得
+            $major_category = MajorCategory::find($category->major_category_id);
         } else {
             $products = Product::sortable()->paginate(15);    // ソート(sortable)とページネーション(paginate)を設定
             $total_count = "";
             $category = null;
+            $major_category = null; 
         }
          $categories = Category::all();     // 全てのカテゴリーを取得
-         $major_category_names = Category::pluck('major_category_name')->unique(); 
-                                /* ↑ 全カテゴリーのデータからmajor_category_nameのカラムのみを取得.
-                                     その上でunique()を使い、重複している部分を削除 */
+         $major_categories = MajorCategory::all();
         //上記で取得したデータ（$products,$categoryなど）をindex.blade.phpに渡す
-         return view('products.index', compact('products', 'category', 'categories', 'major_category_names', 'total_count'));
-         }
+        return view('products.index', compact('products', 'category', 'major_category', 'categories', 'major_categories', 'total_count'));
+        }
 
     /**
      * Show the form for creating a new resource.
