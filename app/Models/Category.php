@@ -13,4 +13,10 @@ class Category extends Model
     {
         return $this->hasMany('App\Models\Product');
     }
+
+    public function major_category()
+     {
+         return $this->belongsTo(MajorCategory::class);  //カテゴリーは1つの親カテゴリーに属するので、ここではbelongsToと記述
+     }
+
 }
