@@ -13,6 +13,17 @@ class Product extends Model
     use HasFactory, Favoriteable, Sortable; 
     // ↑ useにFavoriteableを指定することで、Productモデルに、お気に入り機能を使えるようになる
     // ↑ useにSortableを指定することで、Productモデルに、ソート機能を使えるようになる
+    
+    protected $fillable = [
+        'name',
+        'description',
+        'price',
+        'category_id',
+        'image',
+        'recommend_flag',
+        'carriage_flag',
+    ];
+    
     public function category()
     {
         return $this->belongsTo('App\Models\Category');
