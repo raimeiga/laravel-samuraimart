@@ -7,10 +7,10 @@
  
  class CsvImport extends AbstractTool
  {
-     protected function script()
+    protected function script()  //↓ CSVインポートボタンがクリックされたらファイルを選択するためのエクスプローラを開
      {
          return <<< SCRIPT
-         
+ 
          $('.csv-import').click(function() {
              var select = document.getElementById('files');
              document.getElementById("files").click();
