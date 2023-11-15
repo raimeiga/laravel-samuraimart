@@ -24,6 +24,8 @@ class ProductController extends AdminController
      *
      * @return Grid
      */
+
+    //gridアクション = indexアクションと同様にデータを取得するが、それを表形式で表示するためのアクションらしい
     protected function grid()
     {
         $grid = new Grid(new Product());
@@ -34,6 +36,7 @@ class ProductController extends AdminController
         $grid->column('price', __('Price'))->sortable();
         $grid->column('category.name', __('Category Name'));
         $grid->column('image', __('Image'))->image();
+        $grid->column('recommend_flag', __('Recommend Flag'));
         $grid->column('created_at', __('Created at'))->sortable();
         $grid->column('updated_at', __('Updated at'))->sortable();
         
@@ -43,6 +46,7 @@ class ProductController extends AdminController
             $filter->like('description', '商品説明');  //部分一致を設定
             $filter->between('price', '金額');  //範囲指定を設定
             $filter->in('category_id', 'カテゴリー')->multipleSelect(Category::all()->pluck('name', 'id'));   //選択式のフィルターを付与
+            $filter->equal('recommend_flag', 'おすすめフラグ')->select(['0' => 'false', '1' => 'true']);
         });
 
         return $grid;
@@ -54,6 +58,8 @@ class ProductController extends AdminController
      * @param mixed $id
      * @return Show
      */
+
+    //detailアクション= 
     protected function detail($id)
     {
         $show = new Show(Product::findOrFail($id));
@@ -64,6 +70,7 @@ class ProductController extends AdminController
         $show->field('price', __('Price'));
         $show->field('category.name', __('Category Name'));
         $show->field('image', __('Image'))->image();
+        $show->field('recommend_flag', __('Recommend Flag'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -75,6 +82,8 @@ class ProductController extends AdminController
      *
      * @return Form
      */
+
+    // formアクション = 新しいデータの作成、既存のデータを編集するためのフォームを構築するアクションらしい（データの追加や編集に使用）
     protected function form()
     {
         $form = new Form(new Product());
@@ -84,7 +93,7 @@ class ProductController extends AdminController
         $form->number('price', __('Price'));
         $form->select('category_id', __('Category Name'))->options(Category::all()->pluck('name', 'id'));
         $form->image('image', __('Image'));
-
+        $form->switch('recommend_flag', __('Recommend Flag'));
         return $form;
     }
 }
