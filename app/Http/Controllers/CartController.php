@@ -18,16 +18,26 @@ class CartController extends Controller
 
     // 現在カートに入っている商品一覧を表示（カート機能）
     public function index()
-    {   // ユーザーのIDを元にこれまで追加したカートの中身を$cart変数に保存し、下のcompact関数でビュー（index.blade.php)に渡す
+    {   // ユーザーのIDを元にこれまで追加したカートの中身を$cartに保存し、下のcompact関数でビュー（index.blade.php)に渡す
         $cart = Cart::instance(Auth::user()->id)->content(); 
  
         $total = 0;
+         $has_carriage_cost = false;
+         $carriage_cost = 0;
 
-        foreach ($cart as $c) {
+         foreach ($cart as $c) {
             $total += $c->qty * $c->price;
+             if ($c->options->carriage) {
+                 $has_carriage_cost = true;
+             }
         }
+ 
+         if($has_carriage_cost) {
+             $total += env('CARRIAGE');
+             $carriage_cost = env('CARRIAGE');
+         }
 
-        return view('carts.index', compact('cart', 'total'));
+        return view('carts.index', compact('cart', 'total', 'carriage_cost'));
     }
  
     /**
@@ -47,11 +57,12 @@ class CartController extends Controller
                 'price' => $request->price, 
                 'weight' => $request->weight, 
                 'options' => [
-                    'image' => $request->image,
+                'image' => $request->image,
+                'carriage' => $request->carriage, //送料の有無
                 ]
             ] 
         );
-        // 商品をカートに追加した後、そのまま商品の個別ページへとリダイレクト
+        // 商品をカートに追加した後、そのまま商品の個別(商品の詳細)ページへとリダイレクト
         return to_route('products.show', $request->get('id'));
     } 
     
