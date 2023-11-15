@@ -59,7 +59,9 @@ class ProductController extends AdminController
      * @return Show
      */
 
-    //detailアクション= 
+    /* detailアクション= 特定のデータの詳細情報を表示するためのアクション
+       商品一覧が表示されているページでユーザーが特定の商品をクリックすると、
+       その商品の詳細ページが表示されるのに、detailアクションが利用される */
     protected function detail($id)
     {
         $show = new Show(Product::findOrFail($id));
