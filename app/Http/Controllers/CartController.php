@@ -73,15 +73,46 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
-    {
-        $user_shoppingcarts = DB::table('shoppingcart')->where('instance', Auth::user()->id)->get();
-        $count = $user_shoppingcarts->count();  //現在までのユーザーが注文したカートの数を取得
+    {   // 購入時にShoppingCartテーブルに新規レコードを追加するが、レコード追加時に必要なIDの値を作るためにレコードを取得
+        $user_shoppingcarts = DB::table('shoppingcart')->get();
+        $number = DB::table('shoppingcart')->where('instance', Auth::user()->id)->count();
 
-        $count += 1;  //新しくデータベースに登録するカートのデータ用にカートのIDを一つ増やしている
-        Cart::instance(Auth::user()->id)->store($count);    //ユーザーのIDを使ってカート内の商品情報などをデータベースへと保存
+        $count = $user_shoppingcarts->count();
 
-        //　データベース内のshoppingcartテーブルへにアクセスし、where()を使ってユーザーのIDとカート数$countを使い、作成したカートのデータを更新
-        DB::table('shoppingcart')->where('instance', Auth::user()->id)->where('number', null)->update(['number' => $count, 'buy_flag' => true]);
+        $count += 1;
+        $number += 1;
+        $cart = Cart::instance(Auth::user()->id)->content();
+
+        $price_total = 0;
+        $qty_total = 0;
+        $has_carriage_cost = false;
+
+        foreach ($cart as $c) {
+            $price_total += $c->qty * $c->price;
+            $qty_total += $c->qty;
+            if ($c->options->carriage) {
+                $has_carriage_cost = true;
+            }
+        }
+
+        if($has_carriage_cost) {
+            $price_total += env('CARRIAGE');
+        }
+
+        Cart::instance(Auth::user()->id)->store($count);
+
+        DB::table('shoppingcart')->where('instance', Auth::user()->id)
+            ->where('number', null)
+            ->update(
+                [
+                    'code' => substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 10),
+                    'number' => $number,
+                    'price_total' => $price_total,
+                    'qty' => $qty_total,
+                    'buy_flag' => true,
+                    'updated_at' => date("Y/m/d H:i:s")
+                ]
+            );
 
         Cart::instance(Auth::user()->id)->destroy();
 
