@@ -10,10 +10,13 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\CustomVerifyEmail;
 use App\Notifications\CustomResetPassword;
 use Overtrue\LaravelFavorite\Traits\Favoriter; //お気に入りするモデル（今回は商品のUser）にuse Favoriterとすることで、お気に入り機能使用可に。
+use Illuminate\Database\Eloquent\SoftDeletes;  //論理削除を有効にするには、モデルにSoftDeletesトレイトを追加する必要があるらしい
 
 class User extends Authenticatable implements MustVerifyEmail
-{
-    use HasApiTokens, HasFactory, Notifiable, Favoriter;  //お気に入りするモデル（今回は商品のUser）にuse Favoriterとすることで、お気に入り機能使用可に。
+{   //お気に入りするモデル（今回は商品のUser）にuse Favoriterとすることで、お気に入り機能使用可に。
+    use HasApiTokens, HasFactory, Notifiable, Favoriter, SoftDeletes;  
+ 
+    protected $dates = ['deleted_at'];  // ← 論理削除カラム(deleted_at)が日付(Datetime型)であることを宣言するためのもの
 
     public function sendEmailVerificationNotification()
      {
