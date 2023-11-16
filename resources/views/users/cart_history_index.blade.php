@@ -1,4 +1,5 @@
-@extends('layouts.app')
+<!-- 注文履歴の一覧画面 -->
+@extends('layouts.app')  
  
  @section('content')
  <div class="container">
