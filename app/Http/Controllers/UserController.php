@@ -112,16 +112,20 @@ class UserController extends Controller
          $billings = ShoppingCart::getCurrentUserOrders($user_id); 
          $total = count($billings);
          $billings = new LengthAwarePaginator(array_slice($billings, ($page - 1) * 15, 15), $total, 15, $page, array('path' => $request->url()));
+     
+         return view('users.cart_history_index', compact('billings', 'total'));
      }
-         public function cart_history_show(Request $request)
-         {
+     
+
+     public function cart_history_show(Request $request)
+     {
              $num = $request->num;
              $user_id = Auth::user()->id;
              $cart_info = DB::table('shoppingcart')->where('instance', $user_id)->where('number', $num)->get()->first();
-             
-            /*  過去購入したカート情報をLaravelShoppingcartライブラリ経由で取り出すため、restoreメソッド呼び、
-                $cart_contentsにカート情報を格納。ただし、restoreメソッドを呼び出すとshoppingcartテーブルから
-                データが消えてしまう仕様のため、以下のようにstoreメソッドでデータを書き戻す処理が必要 */
+                
+             /*  ↓ 過去購入したカート情報をLaravelShoppingcartライブラリ経由で取り出すため、restoreメソッド呼び、
+                 ↓ $cart_contentsにカート情報を格納。ただし、restoreメソッドを呼び出すとshoppingcartテーブルから
+                 ↓データが消えてしまう仕様のため、以下のようにstoreメソッドでデータを書き戻す処理が必要 */
              Cart::instance($user_id)->restore($cart_info->identifier);
              $cart_contents = Cart::content();
              Cart::instance($user_id)->store($cart_info->identifier);
@@ -130,8 +134,6 @@ class UserController extends Controller
      
              DB::table('shoppingcart')->where('instance', $user_id)
                  ->where('number', null)
-                  /*  storeメソッドで書き戻した際に、codeカラムやnumberカラムなどの一部データの
-                      復元ができない制約があるため、以下のupdateメソッドによりデータの書き戻す */
                  ->update(  
                      [
                          'code' => $cart_info->code,
@@ -143,7 +145,7 @@ class UserController extends Controller
                      ]
                  );
         
-         return view('users.cart_history_index', compact('billings', 'total'));
+         return view('users.cart_history_show', compact('cart_contents', 'cart_info'));
      }
 
 }
