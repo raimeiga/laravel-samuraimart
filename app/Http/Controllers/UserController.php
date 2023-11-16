@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\ShoppingCart;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\DB;
 
 
 class UserController extends Controller
@@ -111,6 +113,36 @@ class UserController extends Controller
          $total = count($billings);
          $billings = new LengthAwarePaginator(array_slice($billings, ($page - 1) * 15, 15), $total, 15, $page, array('path' => $request->url()));
  
+         public function cart_history_show(Request $request)
+         {
+             $num = $request->num;
+             $user_id = Auth::user()->id;
+             $cart_info = DB::table('shoppingcart')->where('instance', $user_id)->where('number', $num)->get()->first();
+             
+            /*  過去購入したカート情報をLaravelShoppingcartライブラリ経由で取り出すため、restoreメソッド呼び、
+                $cart_contentsにカート情報を格納。ただし、restoreメソッドを呼び出すとshoppingcartテーブルから
+                データが消えてしまう仕様のため、以下のようにstoreメソッドでデータを書き戻す処理が必要 */
+             Cart::instance($user_id)->restore($cart_info->identifier);
+             $cart_contents = Cart::content();
+             Cart::instance($user_id)->store($cart_info->identifier);
+             
+             Cart::destroy();
+     
+             DB::table('shoppingcart')->where('instance', $user_id)
+                 ->where('number', null)
+                  /*  storeメソッドで書き戻した際に、codeカラムやnumberカラムなどの一部データの
+                      復元ができない制約があるため、以下のupdateメソッドによりデータの書き戻す */
+                 ->update(  
+                     [
+                         'code' => $cart_info->code,
+                         'number' => $num,
+                         'price_total' => $cart_info->price_total,
+                         'qty' => $cart_info->qty,
+                         'buy_flag' => $cart_info->buy_flag,
+                         'updated_at' => $cart_info->updated_at
+                     ]
+                 );
+        
          return view('users.cart_history_index', compact('billings', 'total'));
      }
 
