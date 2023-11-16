@@ -1,3 +1,4 @@
+<!-- 注文履歴の詳細画面 -->
 @extends('layouts.app')
  
  @section('content')
