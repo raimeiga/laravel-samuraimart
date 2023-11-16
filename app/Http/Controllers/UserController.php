@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Auth;
      現在ログイン中のユーザーのデータ（Userモデルのインスタンス）を取得できる。
 */
 use Illuminate\Http\Request;
+use App\Models\ShoppingCart;
+use Illuminate\Pagination\LengthAwarePaginator;
+
+
 class UserController extends Controller
 {
     public function mypage()
@@ -96,4 +100,16 @@ class UserController extends Controller
          Auth::user()->delete();
          return redirect('/');
      }
+
+     public function cart_history_index(Request $request)
+     {
+         $page = $request->page != null ? $request->page : 1;
+         $user_id = Auth::user()->id;
+         $billings = ShoppingCart::getCurrentUserOrders($user_id);
+         $total = count($billings);
+         $billings = new LengthAwarePaginator(array_slice($billings, ($page - 1) * 15, 15), $total, 15, $page, array('path' => $request->url()));
+ 
+         return view('users.cart_history_index', compact('billings', 'total'));
+     }
+     
 }
