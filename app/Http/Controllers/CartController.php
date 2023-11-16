@@ -114,6 +114,20 @@ class CartController extends Controller
                 ]
             );
 
+        // ↓ .envに設定したAPIキーを使用して、購入処理時に、PAY.JPに決済情報を送信し、購入時にクレジットカード決済できるようにしている
+         $pay_jp_secret = env('PAYJP_SECRET_KEY');
+         \Payjp\Payjp::setApiKey($pay_jp_secret);
+ 
+         $user = Auth::user();
+ 
+         $res = \Payjp\Charge::create(
+             [
+                 "customer" => $user->token,
+                 "amount" => $price_total,
+                 "currency" => 'jpy'
+             ]
+         );
+
         Cart::instance(Auth::user()->id)->destroy();
 
         return to_route('carts.index');
