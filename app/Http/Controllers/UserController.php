@@ -112,7 +112,7 @@ class UserController extends Controller
          $billings = ShoppingCart::getCurrentUserOrders($user_id); 
          $total = count($billings);
          $billings = new LengthAwarePaginator(array_slice($billings, ($page - 1) * 15, 15), $total, 15, $page, array('path' => $request->url()));
- 
+     }
          public function cart_history_show(Request $request)
          {
              $num = $request->num;
