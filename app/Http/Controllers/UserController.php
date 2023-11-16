@@ -101,15 +101,17 @@ class UserController extends Controller
          return redirect('/');
      }
 
+     // ↓ 注文履歴の一覧を表示するアクション
      public function cart_history_index(Request $request)
      {
          $page = $request->page != null ? $request->page : 1;
          $user_id = Auth::user()->id;
-         $billings = ShoppingCart::getCurrentUserOrders($user_id);
+         // ↓ ShoppingCart.phpで書いたgetCurrentUserOrders関数（メソッドかも）を呼び出しているらしい
+         $billings = ShoppingCart::getCurrentUserOrders($user_id); 
          $total = count($billings);
          $billings = new LengthAwarePaginator(array_slice($billings, ($page - 1) * 15, 15), $total, 15, $page, array('path' => $request->url()));
  
          return view('users.cart_history_index', compact('billings', 'total'));
      }
-     
+
 }
